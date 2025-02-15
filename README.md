@@ -40,8 +40,6 @@ intellipick
 │  │  └─ auth.test.ts
 │  ├─ types
 │  │  ├─ auth.ts
-│  │  ├─ supabase
-│  │  │  └─ supabase-type.ts
 │  │  └─ user.ts
 │  └─ vite-env.d.ts
 ├─ tailwind.config.js
