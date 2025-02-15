@@ -3,12 +3,15 @@ import { supabase } from "../supabase/supabase";
 import { useNavigate } from "react-router-dom";
 import { User } from "@supabase/supabase-js";
 import styled from "styled-components";
+import { ErrorMessages } from "../types/auth";
+
 const SignUp = () => {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [error, setError] = useState<ErrorMessages>({});
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,38 +23,42 @@ const SignUp = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let formErrors: ErrorMessages = {};
     if (!email.trim()) {
-      console.error("이메일 주소를 입력하세요.");
-      return;
+      formErrors.email = "이메일 주소를 입력하세요.";
     }
     if (!password.trim()) {
-      console.error("비밀번호를 입력하세요.");
-      return;
+      formErrors.password = "비밀번호를를 입력하세요.";
     }
     if (!confirmPassword.trim()) {
-      console.error("비밀번호를 다시 확인해주세요.");
-      return;
+      formErrors.confirmPassword = "비밀번호를 다시 확인해주세요.";
+    }
+    if (!nickname.trim()) {
+      formErrors.nickname = "닉네임을 입력해주세요 않습니다.";
     }
     if (password !== confirmPassword) {
-      console.error("비밀번호가 일치하지 않습니다.");
+      formErrors.password = "비밀번호가 일치하지 않습니다.";
+    }
+    if (Object.keys(formErrors).length > 0) {
+      setError(formErrors);
       return;
     }
 
-    const { data: duplicateEmail, error: emailCheckError } = await supabase
-      .from("users")
-      .select("email")
-      .eq("email", email);
+    // const { data: duplicateEmail, error: emailCheckError } = await supabase
+    //   .from("users")
+    //   .select("email")
+    //   .eq("email", email);
 
-    if (emailCheckError) {
-      console.error("Email Check Error:", emailCheckError.message);
-      console.error("이메일 중복 확인 중 오류가 발생했습니다.");
-      return;
-    }
+    // if (emailCheckError) {
+    //   console.error("Email Check Error:", emailCheckError.message);
+    //   console.error("이메일 중복 확인 중 오류가 발생했습니다.");
+    //   return;
+    // }
 
-    if (duplicateEmail.length > 0) {
-      console.error("이미 사용 중인 이메일입니다.");
-      return;
-    }
+    // if (duplicateEmail.length > 0) {
+    //   console.error("이미 사용 중인 이메일입니다.");
+    //   return;
+    // }
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -61,6 +68,7 @@ const SignUp = () => {
     if (error) {
       console.error("Sign Up Error:", error.message);
       console.error(`회원가입 실패: ${error.message}`);
+      setError({ general: "회원가입 실패: " + error.message });
       return;
     }
 
@@ -76,6 +84,7 @@ const SignUp = () => {
 
       if (insertError) {
         console.error(`닉네임 저장 실패: ${insertError.message}`);
+        setError({ general: "닉네임 저장 실패: " + insertError.message });
         return;
       }
       setUser(data.user);
@@ -100,6 +109,8 @@ const SignUp = () => {
             value={email}
             onChange={handleChange}
           />
+          {error.email && <ErrorText>{error.email}</ErrorText>}
+
           <Input
             type="password"
             name="password"
@@ -107,6 +118,7 @@ const SignUp = () => {
             value={password}
             onChange={handleChange}
           />
+          {error.password && <ErrorText>{error.password}</ErrorText>}
           <Input
             type="password"
             name="confirmPassword"
@@ -114,6 +126,9 @@ const SignUp = () => {
             value={confirmPassword}
             onChange={handleChange}
           />
+          {error.confirmPassword && (
+            <ErrorText>{error.confirmPassword}</ErrorText>
+          )}
           <Input
             type="text"
             name="nickname"
@@ -121,6 +136,7 @@ const SignUp = () => {
             value={nickname}
             onChange={handleChange}
           />
+          {error.nickname && <ErrorText>{error.nickname}</ErrorText>}
           <SubmitButton type="submit">가입</SubmitButton>
 
           <SignInButton onClick={handleSignIn}>
@@ -150,14 +166,15 @@ const Form = styled.form`
   padding: 20px;
 `;
 const Input = styled.input`
-  padding: 12px;
-  margin-bottom: 12px;
+  padding: 19px;
   border: 1px solid 4px;
+  margin-bottom: 18px;
+
   font-size: 16px;
   border-radius: 10px;
 `;
 const SignInButton = styled.button`
-  margin-top: 10px;
+  margin-top: px;
   padding: 10px;
   background: transparent;
   font-size: 14px;
@@ -177,4 +194,10 @@ const SubmitButton = styled.button`
   &:hover {
     background-color: #dddddd;
   }
+`;
+const ErrorText = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-top: 0px;
+  margin-bottom: 20px;
 `;

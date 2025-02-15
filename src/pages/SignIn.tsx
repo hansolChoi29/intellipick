@@ -1,14 +1,15 @@
 import { useState } from "react";
-import useAuthStore from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabase/supabase";
+import { ErrorMessages } from "../types/auth";
+import useAuthStore from "../store/authStore";
 import styled from "styled-components";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const { user, isAuthenticated, signOut } = useAuthStore();
+  const [error, setError] = useState<ErrorMessages>({});
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,24 +19,26 @@ const SignIn = () => {
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    let formErrors: ErrorMessages = {};
     e.preventDefault();
-    setError(null);
+    setError({});
 
-    if (!email.trim() || !password.trim()) {
-      setError("이메일과 비밀번호를 입력해 주세요.");
+    if (!email.trim()) {
+      formErrors.email = "이메일 주소를 입력하세요.";
+    }
+    if (!password.trim()) {
+      formErrors.password = "이메일 주소를 입력하세요.";
+    }
+    if (Object.keys(formErrors).length > 0) {
+      setError(formErrors);
       return;
     }
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) {
-        setError(`로그인실패!:${error.message}`);
-        return;
-      }
       if (data?.user) {
         const user = {
           id: data.user.id,
@@ -43,18 +46,17 @@ const SignIn = () => {
           nickname: data.user.user_metadata?.nickname,
         };
 
-        // 상태 업데이트
         useAuthStore.getState().setUser(user);
         useAuthStore.getState().setIsAuthenticated(true);
 
-        alert("로그인성공! 홈페이지로 이동됩니다.");
-        navigate("/");
+        alert("로그인성공! 마이페이지로 이동됩니다.");
+        navigate("/dashboard");
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(`예기치못한 오류: ${err.message}`);
+        setError({ general: `예기치못한 오류: ${err.message}` }); // 일반적인 오류 메시지 처리
       } else {
-        setError("예기치못한 오류가 발생했습니다.");
+        setError({ general: "예기치못한 오류가 발생했습니다." });
       }
     }
   };
@@ -73,15 +75,15 @@ const SignIn = () => {
           value={email}
           onChange={handleChange}
         />
+        {error.email && <ErrorText>{error.email}</ErrorText>}
         <Input
           type="password"
           name="password"
           placeholder="비밀번호를 입력해 주세요."
           value={password}
           onChange={handleChange}
-        />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
+        />{" "}
+        {error.password && <ErrorText>{error.password}</ErrorText>}
         {isAuthenticated ? (
           <div>
             <p>환영합니다, {user?.email}님!</p>
@@ -115,7 +117,7 @@ const Form = styled.form`
   padding: 20px;
 `;
 const Input = styled.input`
-  padding: 12px;
+  padding: 19px;
   margin-bottom: 12px;
   border: 1px solid 4px;
   font-size: 16px;
@@ -143,5 +145,10 @@ const SubmitButton = styled.button`
     background-color: #dddddd;
   }
 `;
-
+const ErrorText = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+`;
 export default SignIn;
