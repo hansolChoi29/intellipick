@@ -34,19 +34,17 @@ const SignIn = () => {
       return;
     }
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (data?.user) {
-        const user = {
+        useAuthStore.getState().setUser({
           id: data.user.id,
           email: data.user.email as string,
           nickname: data.user.user_metadata?.nickname,
-        };
-
-        useAuthStore.getState().setUser(user);
+        });
         useAuthStore.getState().setIsAuthenticated(true);
 
         alert("로그인성공! 마이페이지로 이동됩니다.");
@@ -54,7 +52,7 @@ const SignIn = () => {
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError({ general: `예기치못한 오류: ${err.message}` }); // 일반적인 오류 메시지 처리
+        setError({ general: `예기치못한 오류: ${err.message}` });
       } else {
         setError({ general: "예기치못한 오류가 발생했습니다." });
       }
@@ -142,8 +140,11 @@ const SubmitButton = styled.button`
   border-radius: 20px;
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: #dddddd;
+    color: #b3916a;
+    background-color: white;
   }
+  background-color: #b3916a;
+  color: white;
 `;
 const ErrorText = styled.p`
   color: red;
