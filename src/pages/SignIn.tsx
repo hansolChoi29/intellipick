@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabase/supabase";
 import { ErrorMessages } from "../types/auth";
@@ -11,7 +11,11 @@ const SignIn = () => {
   const { user, isAuthenticated, signOut } = useAuthStore();
   const [error, setError] = useState<ErrorMessages>({});
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "email") setEmail(value);
@@ -19,7 +23,7 @@ const SignIn = () => {
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-    let formErrors: ErrorMessages = {};
+    const formErrors: ErrorMessages = {};
     e.preventDefault();
     setError({});
 
@@ -140,11 +144,8 @@ const SubmitButton = styled.button`
   border-radius: 20px;
   transition: background-color 0.3s ease;
   &:hover {
-    color: #b3916a;
-    background-color: white;
+    background-color: #dddddd;
   }
-  background-color: #b3916a;
-  color: white;
 `;
 const ErrorText = styled.p`
   color: red;

@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import "./App.css";
 import { useNavigate } from "react-router-dom";
+
 function App() {
   const navigate = useNavigate();
+
   const handleSignIn = () => {
     navigate("/sign-in");
   };

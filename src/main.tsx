@@ -8,28 +8,40 @@ import App from "./App.tsx";
 import Header from "./components/Header.tsx";
 import useAuthStore from "./store/authStore.ts";
 import Dashboard from "./pages/Dashboard.tsx";
-//대체 머가 멋져 빡치넴 썅
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import TodoList from "./pages/TodoList.tsx";
+const queryClient = new QueryClient();
 const RootComponent = () => {
   const { isAuthenticated, signOut } = useAuthStore();
   return (
     <>
-      <BrowserRouter>
-        <Header isAuthenticated={isAuthenticated} signOut={signOut} />
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Header isAuthenticated={isAuthenticated} signOut={signOut} />
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/todolist"
+              element={
+                <ProtectedRoute>
+                  <TodoList />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -11,8 +11,14 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState<ErrorMessages>({});
-  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name == "email") setEmail(value);
@@ -22,7 +28,7 @@ const SignUp = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let formErrors: ErrorMessages = {};
+    const formErrors: ErrorMessages = {};
     if (!email.trim()) {
       formErrors.email = "이메일 주소를 입력하세요.";
     }
@@ -33,7 +39,7 @@ const SignUp = () => {
       formErrors.confirmPassword = "비밀번호를 다시 확인해주세요.";
     }
     if (!nickname.trim()) {
-      formErrors.nickname = "닉네임을 입력해주세요 않습니다.";
+      formErrors.nickname = "닉네임을 입력해주세요.";
     }
     if (password !== confirmPassword) {
       formErrors.password = "비밀번호가 일치하지 않습니다.";

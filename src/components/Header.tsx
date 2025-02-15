@@ -11,7 +11,7 @@ const Header = ({ isAuthenticated, signOut }: HeaderProps) => {
       <nav>
         {!isAuthenticated ? (
           <>
-            <LinkButton to="/">홈</LinkButton>
+            <LinkButton to="/home">홈</LinkButton>
             <LinkButton to="/sign-in">로그인</LinkButton>
 
             <LinkButton to="/sign-up">회원가입</LinkButton>
@@ -19,7 +19,7 @@ const Header = ({ isAuthenticated, signOut }: HeaderProps) => {
         ) : (
           <>
             <LinkButton to="/dashboard">마이페이지</LinkButton>
-            <LinkButton to="/Home">홈</LinkButton>
+            <LinkButton to="/home">홈</LinkButton>
             <SignOutButton
               className="bg-transparent border-none"
               onClick={signOut}
