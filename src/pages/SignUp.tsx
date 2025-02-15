@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { supabase } from "../supabase/supabase";
 import { useNavigate } from "react-router-dom";
-import { User } from "@supabase/supabase-js";
 import styled from "styled-components";
+import useAuthStore from "../store/authStore";
 import { ErrorMessages } from "../types/auth";
 
 const SignUp = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,22 +43,6 @@ const SignUp = () => {
       return;
     }
 
-    // const { data: duplicateEmail, error: emailCheckError } = await supabase
-    //   .from("users")
-    //   .select("email")
-    //   .eq("email", email);
-
-    // if (emailCheckError) {
-    //   console.error("Email Check Error:", emailCheckError.message);
-    //   console.error("이메일 중복 확인 중 오류가 발생했습니다.");
-    //   return;
-    // }
-
-    // if (duplicateEmail.length > 0) {
-    //   console.error("이미 사용 중인 이메일입니다.");
-    //   return;
-    // }
-
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -87,7 +70,14 @@ const SignUp = () => {
         setError({ general: "닉네임 저장 실패: " + insertError.message });
         return;
       }
-      setUser(data.user);
+      useAuthStore.getState().setUser({
+        id: data.user.id,
+        email: data.user.email as string,
+        nickname: data.user.user_metadata?.nickname,
+      });
+
+      useAuthStore.getState().setIsAuthenticated(true);
+
       alert("회원가입 성공! 홈페이지로 이동됩니다.");
       navigate("/");
     }
@@ -190,10 +180,14 @@ const SubmitButton = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 20px;
+
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: #dddddd;
+    color: #b3916a;
+    background-color: white;
   }
+  background-color: #b3916a;
+  color: white;
 `;
 const ErrorText = styled.p`
   color: red;

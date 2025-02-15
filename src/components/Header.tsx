@@ -11,6 +11,7 @@ const Header = ({ isAuthenticated, signOut }: HeaderProps) => {
       <nav>
         {!isAuthenticated ? (
           <>
+            <LinkButton to="/">홈</LinkButton>
             <LinkButton to="/sign-in">로그인</LinkButton>
 
             <LinkButton to="/sign-up">회원가입</LinkButton>
