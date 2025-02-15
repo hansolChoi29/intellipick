@@ -1,8 +1,4 @@
-html,
-body,
-#root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* 근데 어떻게 하는거였더라 스타일드컴포넌트?  */
