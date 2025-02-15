@@ -8,25 +8,33 @@ import SignUp from "./pages/SignUp.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import { Dashboard } from "./pages/Dashboard.tsx";
 import App from "./App.tsx";
+import Header from "./components/Header.tsx";
+import useAuthStore from "./store/authStore.ts";
 
-createRoot(document.getElementById("root")!).render(
-  <>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/home" element={<Home />} />
-        {/* <Route path="/" element={<App />} /> */}
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  </>
-);
+const RootComponent = () => {
+  const { isAuthenticated, signOut } = useAuthStore();
+  return (
+    <>
+      <BrowserRouter>
+        <Header isAuthenticated={isAuthenticated} signOut={signOut} />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+};
+
+const root = createRoot(document.getElementById("root") as HTMLElement);
+root.render(<RootComponent />);
