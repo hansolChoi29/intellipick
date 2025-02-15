@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import "./index.css";
-// import App from "./App.tsx";
+import "./styles/tailwind.css";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import SignIn from "./pages/SignIn.tsx";
@@ -10,7 +10,7 @@ import { Dashboard } from "./pages/Dashboard.tsx";
 import App from "./App.tsx";
 import Header from "./components/Header.tsx";
 import useAuthStore from "./store/authStore.ts";
-
+//대체 머가 멋져 빡치넴 썅 
 const RootComponent = () => {
   const { isAuthenticated, signOut } = useAuthStore();
   return (

@@ -85,7 +85,8 @@ const SignUp = () => {
     } catch (err) {
       console.error("회원가입 중 오류발생!", err.message);
     }
-  };
+    };
+    //무시할겜됏지? 
   const handleSignIn = () => {
     navigate("/SignIn");
   };

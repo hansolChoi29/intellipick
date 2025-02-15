@@ -63,7 +63,7 @@ const SignIn = () => {
 
   return (
     <div>
-      <p>로그인</p>
+      <p className="text-red-500 text-[200px]">로그인</p>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
