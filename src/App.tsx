@@ -1,7 +1,15 @@
 import "./App.css";
-
+import { useNavigate } from "react-router-dom";
 function App() {
-  return <></>;
+  const navigate = useNavigate();
+  const handleSignIn = () => {
+    navigate("/sign-in");
+  };
+  return (
+    <>
+      <button onClick={handleSignIn}>start</button>
+    </>
+  );
 }
 
 export default App;

@@ -7,12 +7,14 @@ import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import { Dashboard } from "./pages/Dashboard.tsx";
+import App from "./App.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<App />} />
+        <Route path="/home" element={<Home />} />
         {/* <Route path="/" element={<App />} /> */}
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
