@@ -2,6 +2,7 @@ import { useState } from "react";
 import useAuthStore from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabase/supabase";
+import styled from "styled-components";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -58,21 +59,21 @@ const SignIn = () => {
     }
   };
   const handleSignUp = () => {
-    navigate("/SignUp");
+    navigate("/sign-up");
   };
 
   return (
-    <div>
-      <p className="text-red-500 text-[200px]">로그인</p>
-      <form onSubmit={handleSubmit}>
-        <input
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Title className="text-red-500 text-[200px]">로그인</Title>
+        <Input
           type="email"
           name="email"
           placeholder="이메일을 입력해 주세요."
           value={email}
           onChange={handleChange}
         />
-        <input
+        <Input
           type="password"
           name="password"
           placeholder="비밀번호를 입력해 주세요."
@@ -89,12 +90,58 @@ const SignIn = () => {
             </button>
           </div>
         ) : (
-          <button type="submit">로그인</button>
+          <SubmitButton type="submit">로그인</SubmitButton>
         )}
-      </form>
-      <button onClick={handleSignUp}>계정이 없으신가요?</button>
-    </div>
+        <SignUpButton onClick={handleSignUp}>계정이 없으신가요?</SignUpButton>
+      </Form>
+    </Container>
   );
 };
+const Title = styled.p`
+  font-size: 18px;
+  margin-bottom: 100px;
+`;
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+`;
+const Input = styled.input`
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid 4px;
+  font-size: 16px;
+  border-radius: 10px;
+`;
+const SignUpButton = styled.button`
+  margin-top: 10px;
+  padding: 10px;
+  background: transparent;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const SubmitButton = styled.button`
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #dddddd;
+  }
+`;
 
 export default SignIn;

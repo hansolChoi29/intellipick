@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import "./styles/tailwind.css";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import SignIn from "./pages/SignIn.tsx";
