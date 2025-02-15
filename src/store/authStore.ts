@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { AuthState } from "../types/auth";
-// zustand로 관리하고
-// localStorage에 저장하는 방식
+
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
       isAuthenticated: false,
-      setUser: (user) => set({ user, isAuthenticated: true }),
+      setUser: (user) => set({ user, isAuthenticated: user !== null }),
+      setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
       signOut: () => set({ user: null, isAuthenticated: false }),
     }),
     {
