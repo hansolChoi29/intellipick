@@ -1,3 +1,4 @@
+
 ```
 intellipick
 ├─ eslint.config.js
@@ -6,10 +7,16 @@ intellipick
 ├─ package.json
 ├─ public
 ├─ README.md
+├─ server
+│  ├─ .env
+│  ├─ package-lock.json
+│  ├─ package.json
+│  └─ server.js
 ├─ src
 │  ├─ api
 │  │  ├─ authApi.ts
 │  │  ├─ axiosClient.ts
+│  │  ├─ jsonPlaceholderApi.ts
 │  │  └─ supabaseClient.ts
 │  ├─ App.css
 │  ├─ App.tsx
@@ -28,7 +35,8 @@ intellipick
 │  │  ├─ Dashboard.tsx
 │  │  ├─ Home.tsx
 │  │  ├─ SignIn.tsx
-│  │  └─ SignUp.tsx
+│  │  ├─ SignUp.tsx
+│  │  └─ TodoList.tsx
 │  ├─ sentry.ts
 │  ├─ store
 │  │  ├─ authStore.ts
@@ -36,7 +44,7 @@ intellipick
 │  ├─ styles
 │  │  └─ tailwind.css
 │  ├─ supabase
-│  │  └─ supabase.ts
+│  │  └─ supabase.js
 │  ├─ tests
 │  │  └─ auth.test.ts
 │  ├─ types

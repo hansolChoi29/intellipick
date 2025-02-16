@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../supabase/supabase";
 import { ErrorMessages } from "../types/auth";
+
 import useAuthStore from "../store/authStore";
 import styled from "styled-components";
+import { setUser } from "@sentry/react";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, isAuthenticated, signOut } = useAuthStore();
+  const { user, setIsAuthenticated, isAuthenticated, signOut } = useAuthStore();
   const [error, setError] = useState<ErrorMessages>({});
   const navigate = useNavigate();
   useEffect(() => {
@@ -22,44 +23,55 @@ const SignIn = () => {
     if (name === "password") setPassword(value);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-    const formErrors: ErrorMessages = {};
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError({});
+    const formErrors: ErrorMessages = {};
+    setError({}); // 기존 에러 초기화
 
+    // 이메일과 비밀번호가 비어있는지 체크
     if (!email.trim()) {
       formErrors.email = "이메일 주소를 입력하세요.";
     }
     if (!password.trim()) {
-      formErrors.password = "이메일 주소를 입력하세요.";
+      formErrors.password = "비밀번호를 입력하세요.";
     }
+
+    // 에러가 있으면 리턴
     if (Object.keys(formErrors).length > 0) {
       setError(formErrors);
       return;
     }
+
     try {
-      const { data } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // 서버에 로그인 요청 보내기
+      const response = await fetch("http://localhost:5000/sign-in", {
+        method: "POST", // 'POST' 방식으로 요청
+        headers: {
+          "Content-Type": "application/json", // JSON 형식
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
       });
 
-      if (data?.user) {
-        useAuthStore.getState().setUser({
-          id: data.user.id,
-          email: data.user.email as string,
-          nickname: data.user.user_metadata?.nickname,
-        });
-        useAuthStore.getState().setIsAuthenticated(true);
+      const data = await response.json();
 
+      if (response.ok) {
+        setUser({
+          id: data.user.id,
+          email: data.user.email,
+        });
+        setIsAuthenticated(true);
+        console.log("Login successful, state updated:", data.user);
         alert("로그인성공! 마이페이지로 이동됩니다.");
         navigate("/dashboard");
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError({ general: `예기치못한 오류: ${err.message}` });
       } else {
-        setError({ general: "예기치못한 오류가 발생했습니다." });
+        setError({ general: data.message || "로그인 실패" });
       }
+    } catch (err) {
+      setError({ general: "서버 오류" });
+      console.error("Error:", err);
     }
   };
   const handleSignUp = () => {

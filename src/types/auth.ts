@@ -4,14 +4,6 @@ export interface User {
   nickname?: string;
 }
 
-export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  setUser: (user: User | null) => void;
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
-  signOut: () => void;
-}
-
 export interface ErrorMessages {
   email?: string;
   password?: string;
