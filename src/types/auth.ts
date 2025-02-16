@@ -11,3 +11,10 @@ export interface ErrorMessages {
   nickname?: string;
   general?: string;
 }
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  setUser: (user: User | null) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+  signOut: () => void;
+}

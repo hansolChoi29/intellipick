@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../supabase/supabase";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useAuthStore from "../store/authStore";
 import { ErrorMessages } from "../types/auth";
+import { supabase } from "../supabase/supabase";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");

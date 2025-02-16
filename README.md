@@ -44,7 +44,8 @@ intellipick
 │  ├─ styles
 │  │  └─ tailwind.css
 │  ├─ supabase
-│  │  └─ supabase.js
+│  │  ├─ supabase.ts
+│  │  └─ supabaseServer.ts
 │  ├─ tests
 │  │  └─ auth.test.ts
 │  ├─ types
