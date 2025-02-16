@@ -3,24 +3,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Todo } from "../types/user";
 import styled from "styled-components";
 import { useState } from "react";
-
-const fetchTodos = async () => {
-  const response = await fetch("https://jsonplaceholder.typicode.com/todos");
-  if (!response.ok) {
-    throw new Error("Failed to fetch todos");
-  }
-  return response.json();
-};
-
-const fetchTodoById = async (id: number) => {
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/todos/${id}`
-  );
-  if (!response.ok) {
-    throw new Error("Failed to fetch todo");
-  }
-  return response.json();
-};
+import { fetchTodos, fetchTodoById } from "../api/jsonPlaceholderApi";
 
 function TodoList() {
   const {
