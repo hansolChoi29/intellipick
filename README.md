@@ -9,6 +9,7 @@ intellipick
 ├─ src
 │  ├─ api
 │  │  ├─ authApi.ts
+│  │  ├─ axiosClient.ts
 │  │  └─ supabaseClient.ts
 │  ├─ App.css
 │  ├─ App.tsx
@@ -22,7 +23,6 @@ intellipick
 │  │     └─ commands.js
 │  ├─ hook
 │  │  └─ useAuthSync.ts
-│  ├─ index.css
 │  ├─ main.tsx
 │  ├─ pages
 │  │  ├─ Dashboard.tsx
@@ -31,9 +31,10 @@ intellipick
 │  │  └─ SignUp.tsx
 │  ├─ sentry.ts
 │  ├─ store
-│  │  └─ authStore.ts
+│  │  ├─ authStore.ts
+│  │  └─ dataStore.ts
 │  ├─ styles
-│  │  └─ index.css
+│  │  └─ tailwind.css
 │  ├─ supabase
 │  │  └─ supabase.ts
 │  ├─ tests
@@ -42,7 +43,6 @@ intellipick
 │  │  ├─ auth.ts
 │  │  └─ user.ts
 │  └─ vite-env.d.ts
-├─ tailwind.config.js
 ├─ tsconfig.app.json
 ├─ tsconfig.json
 ├─ tsconfig.node.json
