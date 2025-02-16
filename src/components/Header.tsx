@@ -19,8 +19,10 @@ const Header = ({ isAuthenticated, signOut }: HeaderProps) => {
         ) : (
           <>
             <LinkButton to="/dashboard">마이페이지</LinkButton>
+
             <LinkButton to="/home">홈</LinkButton>
             <LinkButton to="/todolist">Todo</LinkButton>
+
             <SignOutButton
               className="bg-transparent border-none"
               onClick={signOut}

@@ -7,12 +7,14 @@ const Dashboard = () => {
   const { user, isAuthenticated } = useAuthStore();
   const [nickname, setNickname] = useState(user?.nickname || "");
   const [isEditing, setIsEditing] = useState(false);
+
   const [newNickname, setNewNickname] = useState(nickname);
   useEffect(() => {
     if (!isAuthenticated) {
       alert("로그인 후 접근할 수 있습니다.");
     }
   }, [isAuthenticated]);
+
 
   const fetchNickname = async () => {
     if (user) {
