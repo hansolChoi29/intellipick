@@ -14,6 +14,7 @@ export interface ErrorMessages {
 export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
+  //build 결과 에러없음
   setUser: (user: User | null) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   signOut: () => void;

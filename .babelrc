@@ -1,0 +1,7 @@
+{
+  "presets": [
+    "@babel/preset-env", // 최신 자바스크립트 문법을 처리
+    "@babel/preset-react", // React JSX 문법을 처리
+    "@babel/preset-typescript" // TypeScript 코드 처리
+  ]
+}

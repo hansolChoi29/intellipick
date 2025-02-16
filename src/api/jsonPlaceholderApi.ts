@@ -1,4 +1,3 @@
-//jsonplaceholder API와의 통신 예시 코드, 실제 서비스와 연결되지 않음
 import axios from "axios";
 
 const api = axios.create({
