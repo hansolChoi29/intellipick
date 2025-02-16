@@ -1,6 +1,7 @@
 
 ```
 intellipick
+├─ .babelrc
 ├─ eslint.config.js
 ├─ index.html
 ├─ package-lock.json
@@ -15,12 +16,11 @@ intellipick
 ├─ src
 │  ├─ api
 │  │  ├─ authApi.ts
-│  │  ├─ axiosClient.ts
-│  │  ├─ jsonPlaceholderApi.ts
-│  │  └─ supabaseClient.ts
+│  │  └─ jsonPlaceholderApi.ts
 │  ├─ App.css
 │  ├─ App.tsx
 │  ├─ components
+│  │  ├─ ErrorBoundary.tsx
 │  │  ├─ Header.tsx
 │  │  └─ ProtectedRoute.tsx
 │  ├─ cypress
@@ -30,6 +30,8 @@ intellipick
 │  │     └─ commands.js
 │  ├─ hook
 │  │  └─ useAuthSync.ts
+│  ├─ jest.config.js
+│  ├─ jest.setup.ts
 │  ├─ main.tsx
 │  ├─ pages
 │  │  ├─ Dashboard.tsx
@@ -47,7 +49,8 @@ intellipick
 │  │  ├─ supabase.ts
 │  │  └─ supabaseServer.ts
 │  ├─ tests
-│  │  └─ auth.test.ts
+│  │  ├─ Header.test.tsx
+│  │  └─ SignIn.test.tsx
 │  ├─ types
 │  │  ├─ auth.ts
 │  │  └─ user.ts

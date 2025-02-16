@@ -1,5 +1,3 @@
-//로그인, 회원가입, JWT 토큰 처리 등 인증 관련 API 호출
-
 import axios from "axios";
 
 const api = axios.create({
