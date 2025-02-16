@@ -20,6 +20,7 @@ const Header = ({ isAuthenticated, signOut }: HeaderProps) => {
           <>
             <LinkButton to="/dashboard">마이페이지</LinkButton>
             <LinkButton to="/Home">홈</LinkButton>
+            <LinkButton to="/Togolist">Todo!</LinkButton>
             <SignOutButton
               className="bg-transparent border-none"
               onClick={signOut}

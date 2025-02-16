@@ -6,7 +6,6 @@ const Dashboard = () => {
   const [nickname, setNickname] = useState("퇴초마을");
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState("");
-
   const fetchNickname = async () => {
     const {
       data: { user },
