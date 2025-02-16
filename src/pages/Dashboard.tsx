@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
 import styled from "styled-components";
+import useAuthStore from "../store/authStore";
 
 const Dashboard = () => {
-  const [nickname, setNickname] = useState("퇴초마을");
+  const { user, isAuthenticated } = useAuthStore();
+  const [nickname, setNickname] = useState(user?.nickname || "");
   const [isEditing, setIsEditing] = useState(false);
-  const [newNickname, setNewNickname] = useState("");
+
+  const [newNickname, setNewNickname] = useState(nickname);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      alert("로그인 후 접근할 수 있습니다.");
+    }
+  }, [isAuthenticated]);
+
+
   const fetchNickname = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
     if (user) {
       const { data, error } = await supabase
         .from("users")
@@ -18,17 +25,20 @@ const Dashboard = () => {
         .single();
       if (error) {
         console.error("닉네임 불러오기 오류", error);
-        alert("닉넴을 불러오는 중 오류가 발생했습니다.");
+        alert("닉네임을 불러오는 중 오류가 발생했습니다.");
       } else {
-        setNickname(data.nick_name);
+        setNickname(data?.nick_name || "");
+        setNewNickname(data?.nick_name || "");
       }
     }
   };
+  useEffect(() => {
+    if (user && isAuthenticated) {
+      fetchNickname();
+    }
+  }, [user, isAuthenticated]);
 
   const updateNickname = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
     if (user) {
       const { error } = await supabase
         .from("users")
@@ -37,7 +47,7 @@ const Dashboard = () => {
 
       if (error) {
         console.error("닉네임 업데이트 오류", error);
-        alert("닉넥임 업데이트하는 중 오류 발생했습니다.");
+        alert("닉네임 업데이트 중 오류가 발생했습니다.");
       } else {
         setNickname(newNickname);
         setIsEditing(false);
@@ -47,8 +57,8 @@ const Dashboard = () => {
   };
 
   const handleEdit = () => {
-    setNickname(nickname);
     setIsEditing(true);
+    setNewNickname(nickname);
   };
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,43 +75,41 @@ const Dashboard = () => {
     setIsEditing(false);
   };
 
-  useEffect(() => {
-    fetchNickname();
-  }, []);
-
   return (
-    <form onSubmit={handleSave}>
+    <>
       <Container>
         <div>
           <Title>내 페이지</Title>
-          <Content>
-            {isEditing ? (
-              <>
-                <Input
-                  type="text"
-                  value={newNickname}
-                  onChange={(e) => setNewNickname(e.target.value)}
-                  placeholder="새로운 닉네임을 입력하세요"
-                />
-                <ButtonContainer>
-                  <Button type="submit">저장</Button>
-                  <Button type="button" onClick={handleCancel} cancel>
-                    취소
+          <form onSubmit={handleSave}>
+            <Content>
+              {isEditing ? (
+                <>
+                  <Input
+                    type="text"
+                    value={newNickname}
+                    onChange={(e) => setNewNickname(e.target.value)}
+                    placeholder="새로운 닉네임을 입력하세요"
+                  />
+                  <ButtonContainer>
+                    <Button type="submit">저장</Button>
+                    <Button type="button" onClick={handleCancel} cancel>
+                      취소
+                    </Button>
+                  </ButtonContainer>
+                </>
+              ) : (
+                <>
+                  <Nickname>{nickname}</Nickname>
+                  <Button type="button" onClick={handleEdit}>
+                    수정
                   </Button>
-                </ButtonContainer>
-              </>
-            ) : (
-              <>
-                <Nickname>{nickname}</Nickname>
-                <Button type="button" onClick={handleEdit}>
-                  수정
-                </Button>
-              </>
-            )}
-          </Content>
+                </>
+              )}
+            </Content>
+          </form>
         </div>
       </Container>
-    </form>
+    </>
   );
 };
 const Container = styled.div`

@@ -7,12 +7,20 @@ const useAuthSync = () => {
 
   useEffect(() => {
     const syncUser = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data?.session) {
+      const { data: session, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error("Session Error:", error);
+        setIsAuthenticated(false);
+        return;
+      }
+
+      if (session && session.session?.user) {
+        const { id, email, user_metadata } = session.session.user;
         setUser({
-          id: data.session.user.id,
-          email: data.session.user.email || "",
-          nickname: data.session.user.user_metadata?.nickname || "",
+          id: id,
+          email: email || "",
+          nickname: user_metadata?.nickname || "",
         });
         setIsAuthenticated(true);
       } else {
@@ -21,6 +29,26 @@ const useAuthSync = () => {
     };
 
     syncUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (session && session.user) {
+          const { id, email, user_metadata } = session.user;
+          setUser({
+            id: id,
+            email: email || "",
+            nickname: user_metadata?.nickname || "",
+          });
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      }
+    );
+
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
   }, [setUser, setIsAuthenticated]);
 
   return null;

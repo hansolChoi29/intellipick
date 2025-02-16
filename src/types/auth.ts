@@ -11,6 +11,7 @@ export interface AuthState {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   signOut: () => void;
 }
+
 export interface ErrorMessages {
   email?: string;
   password?: string;

@@ -1,14 +1,19 @@
+// src/store/dataStore.ts
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { AuthState } from "../types/auth";
+import { AuthState, User } from "../types/auth";
 
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
       isAuthenticated: false,
-      setUser: (user) => set({ user, isAuthenticated: user !== null }),
-      setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+      setUser: (user: User | null) => {
+        set({ user, isAuthenticated: user !== null });
+      },
+      setIsAuthenticated: (isAuthenticated: boolean) => {
+        set({ isAuthenticated });
+      },
       signOut: () => set({ user: null, isAuthenticated: false }),
     }),
     {
