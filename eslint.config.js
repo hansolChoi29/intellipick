@@ -3,7 +3,6 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-//개멋져 기면지
 export default tseslint.config(
   { ignores: ["dist"] },
   {
@@ -27,5 +26,3 @@ export default tseslint.config(
     },
   }
 );
-
-//테일윈드 설치를 ㅐㅎㅆ는데 적용이 안돼 
