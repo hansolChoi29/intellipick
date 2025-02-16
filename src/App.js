@@ -1,25 +1,14 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
 function App() {
-  const navigate = useNavigate();
-
-  const handleSignIn = () => {
-    navigate("/sign-in");
-  };
-  return (
-    <>
-      <Container>
-        <ContainerTitle>
-          <Title>IntelliPick</Title>
-        </ContainerTitle>
-        <Button onClick={handleSignIn}>Start</Button>
-      </Container>
-    </>
-  );
+    const navigate = useNavigate();
+    const handleSignIn = () => {
+        navigate("/sign-in");
+    };
+    return (_jsx(_Fragment, { children: _jsxs(Container, { children: [_jsx(ContainerTitle, { children: _jsx(Title, { children: "IntelliPick" }) }), _jsx(Button, { onClick: handleSignIn, children: "Start" })] }) }));
 }
-
-const Container = styled.div`
+const Container = styled.div `
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,8 +17,7 @@ const Container = styled.div`
   width: 100%;
   gap: 20px;
 `;
-
-const Button = styled.button`
+const Button = styled.button `
   padding: 30px 40px;
   font-size: 30px;
   cursor: pointer;
@@ -45,14 +33,12 @@ const Button = styled.button`
     transform: scale(1.1);
   }
 `;
-
-const Title = styled.p`
+const Title = styled.p `
   font-size: 24px;
   display: flex;
   justify-content: center;
 `;
-
-const ContainerTitle = styled.div`
+const ContainerTitle = styled.div `
   margin-bottom: 20px;
 `;
 export default App;

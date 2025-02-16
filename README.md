@@ -1,18 +1,26 @@
+
 ```
 intellipick
+├─ .babelrc
 ├─ eslint.config.js
 ├─ index.html
 ├─ package-lock.json
 ├─ package.json
 ├─ public
 ├─ README.md
+├─ server
+│  ├─ .env
+│  ├─ package-lock.json
+│  ├─ package.json
+│  └─ server.js
 ├─ src
 │  ├─ api
 │  │  ├─ authApi.ts
-│  │  └─ supabaseClient.ts
+│  │  └─ jsonPlaceholderApi.ts
 │  ├─ App.css
 │  ├─ App.tsx
 │  ├─ components
+│  │  ├─ ErrorBoundary.tsx
 │  │  ├─ Header.tsx
 │  │  └─ ProtectedRoute.tsx
 │  ├─ cypress
@@ -22,27 +30,31 @@ intellipick
 │  │     └─ commands.js
 │  ├─ hook
 │  │  └─ useAuthSync.ts
-│  ├─ index.css
+│  ├─ jest.config.js
+│  ├─ jest.setup.ts
 │  ├─ main.tsx
 │  ├─ pages
 │  │  ├─ Dashboard.tsx
 │  │  ├─ Home.tsx
 │  │  ├─ SignIn.tsx
-│  │  └─ SignUp.tsx
+│  │  ├─ SignUp.tsx
+│  │  └─ TodoList.tsx
 │  ├─ sentry.ts
 │  ├─ store
-│  │  └─ authStore.ts
+│  │  ├─ authStore.ts
+│  │  └─ dataStore.ts
 │  ├─ styles
-│  │  └─ index.css
+│  │  └─ tailwind.css
 │  ├─ supabase
-│  │  └─ supabase.ts
+│  │  ├─ supabase.ts
+│  │  └─ supabaseServer.ts
 │  ├─ tests
-│  │  └─ auth.test.ts
+│  │  ├─ Header.test.tsx
+│  │  └─ SignIn.test.tsx
 │  ├─ types
 │  │  ├─ auth.ts
 │  │  └─ user.ts
 │  └─ vite-env.d.ts
-├─ tailwind.config.js
 ├─ tsconfig.app.json
 ├─ tsconfig.json
 ├─ tsconfig.node.json
