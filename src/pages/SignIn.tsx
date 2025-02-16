@@ -26,9 +26,8 @@ const SignIn = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formErrors: ErrorMessages = {};
-    setError({}); // 기존 에러 초기화
+    setError({});
 
-    // 이메일과 비밀번호가 비어있는지 체크
     if (!email.trim()) {
       formErrors.email = "이메일 주소를 입력하세요.";
     }
@@ -36,18 +35,16 @@ const SignIn = () => {
       formErrors.password = "비밀번호를 입력하세요.";
     }
 
-    // 에러가 있으면 리턴
     if (Object.keys(formErrors).length > 0) {
       setError(formErrors);
       return;
     }
 
     try {
-      // 서버에 로그인 요청 보내기
       const response = await fetch("http://localhost:5000/sign-in", {
-        method: "POST", // 'POST' 방식으로 요청
+        method: "POST",
         headers: {
-          "Content-Type": "application/json", // JSON 형식
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: email,
@@ -63,7 +60,7 @@ const SignIn = () => {
           email: data.user.email,
         });
         setIsAuthenticated(true);
-        console.log("Login successful, state updated:", data.user);
+
         alert("로그인성공! 마이페이지로 이동됩니다.");
         navigate("/dashboard");
       } else {

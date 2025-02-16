@@ -5,9 +5,6 @@ require("dotenv").config();
 
 const app = express();
 
-console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
-console.log("SUPABASE_ANON_KEY:", process.env.SUPABASE_ANON_KEY);
-
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 
@@ -39,7 +36,7 @@ app.post("/sign-in", async (req, res) => {
       user: { id: data.user.id, email: data.user.email },
     });
   } catch (err) {
-    res.status(500).json({ message: "서버 오류: " + err.message }); 
+    res.status(500).json({ message: "서버 오류: " + err.message });
   }
 });
 

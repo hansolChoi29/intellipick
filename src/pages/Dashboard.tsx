@@ -9,42 +9,29 @@ const Dashboard = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState(nickname);
 
-  // 상태 변화 시 콘솔 확인
   useEffect(() => {
-    console.log("User in Zustand:", user); // 상태 확인
-    console.log("Authenticated in Zustand:", isAuthenticated); // 인증 여부 확인
-
-    // 로그인된 사용자가 없다면 로그인 페이지로 리디렉션
     if (!isAuthenticated) {
       alert("로그인 후 접근 가능합니다.");
       return;
     }
 
-    // 로그인한 사용자의 데이터 확인
     if (isAuthenticated && !user) {
-      // 만약 상태에 user가 없다면, 로컬 스토리지에서 데이터를 불러와서 업데이트
       const savedUser = localStorage.getItem("user");
       if (savedUser) {
-        setUser(JSON.parse(savedUser)); // 사용자 정보를 상태로 설정
+        setUser(JSON.parse(savedUser));
         setIsAuthenticated(true);
       }
     }
   }, [user, isAuthenticated, setUser, setIsAuthenticated]);
 
   useEffect(() => {
-    console.log("User in Zustand:", user);
-    console.log("Authenticated in Zustand:", isAuthenticated);
-
     if (user && isAuthenticated) {
       fetchNickname();
     }
   }, [user, isAuthenticated]);
 
-  // supabase에서 닉네임을 불러오는 함수
   const fetchNickname = async () => {
     if (user) {
-      console.log("supabase 인스턴스 확인:", supabase);
-
       try {
         const { data, error } = await supabase
           .from("users")
@@ -56,15 +43,12 @@ const Dashboard = () => {
           console.error("닉네임 불러오기 오류", error);
           alert("닉네임을 불러오는 중 오류가 발생했습니다.");
         } else {
-          console.log("Fetched nickname: ", data);
           setNickname(data?.nick_name || "");
           setNewNickname(data?.nick_name || "");
         }
       } catch (err) {
         console.error("Error fetching nickname:", err);
       }
-    } else {
-      console.log("No user found");
     }
   };
 
