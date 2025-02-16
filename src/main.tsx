@@ -11,10 +11,13 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import App from "./App";
-import "./sentry";
+import * as Sentry from "@sentry/react";
+Sentry.init({
+  dsn: "https://a3bdd43c8fe679bd6fd97ccd942aeb31@o4508828373680128.ingest.us.sentry.io/4508828375449600", // 여기에 실제 DSN 값을 넣어야 합니다.
+  integrations: [],
+});
 
 const queryClient = new QueryClient();
-
 const RootComponent = () => {
   const { isAuthenticated, signOut } = useAuthStore();
   return (
