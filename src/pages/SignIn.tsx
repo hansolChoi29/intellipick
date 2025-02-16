@@ -142,10 +142,14 @@ const SubmitButton = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 20px;
+
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: #dddddd;
+    color: #b3916a;
+    background-color: white;
   }
+  background-color: #b3916a;
+  color: white;
 `;
 const ErrorText = styled.p`
   color: red;
